@@ -1,0 +1,389 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+:root {
+    --box-shadow: 0 4px 8px rgba(24, 23, 23, 0.8);
+    --transition-duration: 0.3s ease-in-out;
+    --primary-black: #333;
+    --hero-light-blue: #b3e5fc;
+    --bg-about: #f0f0f0;
+    --bg-about-linear: #e6efff;
+    --project-overlay: linear-gradient(160deg, rgba(25, 25, 25, 0.9) 30%, rgba(0, 0, 0, 0.6) 100%);
+    --tech-tag-bg: rgba(255, 149, 0, 0.15);
+    --project-spacing: 2rem;
+    --spn: #ff9500;
+    /* Orange accent color */
+    --project-glow: rgba(255, 149, 0, 0.2);
+    --card-radius: 12px;
+
+    /*Dark Mode*/
+    --primary-white: #ffffff;
+    --sec-white: #e0e0e0;
+    --linear-dark: linear-gradient(to right, #242c32, #594040);
+}
+
+/*Dark mode*/
+
+body.dark-mode {
+    color: var(--sec-white) !important;
+}
+
+.dark-mode nav {
+    background: var(--linear-dark) !important;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark-mode .logo,
+.dark-mode nav ul li a,
+.dark-mode .menu-icon i,
+.dark-mode .hero-content h1 {
+    color: var(--primary-white) !important;
+}
+
+.dark-mode nav ul li a:hover,
+.dark-mode .socials li a:hover {
+    color: #4db8ff !important;
+}
+
+.dark-mode #hero-sec {
+    background: var(--linear-dark) !important;
+}
+
+.dark-mode .card img {
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark-mode .card:hover img {
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark-mode .hero-content .download {
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5) !important;
+    background: rgb(34, 34, 34) !important;
+}
+
+.dark-mode .hero-content .download a,
+.dark-mode .socials li a {
+    text-decoration: none !important;
+    color: #d4d4d4 !important;
+
+}
+
+.dark-mode .hero-content .download:hover {
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark-mode .hero-content img {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark-mode .hero-content h2 {
+    color: #51818a !important;
+}
+
+/*About section*/
+.dark-mode #about {
+    background: #1e1e1e !important;
+}
+
+.dark-mode .about-card,
+.dark-mode .about-card-edu {
+    background: linear-gradient(135deg, #353535, #333639) !important;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.805) !important;
+}
+
+.dark-mode .about-card:hover,
+.dark-mode .about-card-edu:hover {
+    background: linear-gradient(135deg, #353535, #333639) !important;
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.805) !important;
+}
+
+.dark-mode #about-sec,
+.dark-mode .about-title {
+    background-color: #2f2f2f !important;
+    color: #ffffff !important;
+}
+
+.dark-mode .experience-card {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode .experience-card:hover {
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-mode .skill div {
+    color: #cacaca !important;
+}
+
+.dark-mode .hero-tagline, .dark-mode  #hero-text-animation {
+    color: #61dafb !important;
+}
+
+.dark-mode .skill i,
+.dark-mode .skill p {
+    color: var(--primary-white) !important;
+}
+
+.dark-mode #skill1 i:hover {
+    color: #fc9c00 !important;
+    text-shadow: 0 0 15px rgba(255, 157, 0, 0.8),
+        0 0 30px rgba(255, 157, 0, 0.6),
+        0 0 45px rgba(255, 157, 0, 0.4),
+        0 0 60px rgba(255, 157, 0, 0.2) !important;
+}
+
+.dark-mode #skill-ang i:hover {
+    color: rgb(255, 47, 47) !important;
+    text-shadow: 0 0 15px rgba(255, 47, 47, 0.8),
+        0 0 30px rgba(255, 47, 47, 0.6),
+        0 0 45px rgba(255, 47, 47, 0.4),
+        0 0 60px rgba(255, 47, 47, 0.2) !important;
+}
+
+.dark-mode #skill2 i:hover{
+    color: #ffcc00 !important;
+    text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 
+                 0 0 30px rgba(255, 204, 0, 0.6),
+                 0 0 45px rgba(255, 204, 0, 0.4),
+                 0 0 60px rgba(255, 204, 0, 0.2) !important;
+}
+
+.dark-mode #skill3 i:hover{
+    color: #ff6a00 !important;
+    text-shadow: 0 0 15px rgba(255, 106, 0, 0.8), 
+                 0 0 30px rgba(255, 106, 0, 0.6),
+                 0 0 45px rgba(255, 106, 0, 0.4),
+                 0 0 60px rgba(255, 106, 0, 0.2) !important;
+}
+
+.dark-mode #skill4 i:hover{
+    color: rgb(37, 75, 221) !important;
+    text-shadow: 0 0 15px rgba(37, 75, 221, 0.8), 
+                 0 0 30px rgba(37, 75, 221, 0.6),
+                 0 0 45px rgba(37, 75, 221, 0.4),
+                 0 0 60px rgba(37, 75, 221, 0.2) !important;
+}
+
+.dark-mode #skill5 i:hover{
+    color: rgb(128, 0, 255) !important;
+    text-shadow: 0 0 15px rgba(131, 17, 246, 0.8), 
+                 0 0 30px rgba(131, 17, 246, 0.6),
+                 0 0 45px rgba(131, 17, 246, 0.4),
+                 0 0 60px rgba(131, 17, 246, 0.2) !important;
+}
+
+.dark-mode #skill6 i:hover{ 
+    color: rgb(255, 225, 0) !important;
+    text-shadow: 0 0 15px rgba(247, 224, 37, 0.8), 
+                 0 0 30px rgba(247, 224, 37, 0.6),
+                 0 0 45px rgba(247, 224, 37, 0.4),
+                 0 0 60px rgba(247, 224, 37, 0.2) !important;
+}
+
+.dark-mode #skill7 i:hover{
+    color: rgb(201, 200, 203) !important;
+    text-shadow: 0 0 15px rgba(201, 200, 203, 0.8), 
+                 0 0 30px rgba(201, 200, 203, 0.6),
+                 0 0 45px rgba(201, 200, 203, 0.4),
+                 0 0 60px rgba(201, 200, 203, 0.2) !important;
+}
+
+.dark-mode #skill8 i:hover{
+    color: rgb(0, 162, 255) !important;
+    text-shadow: 0 0 15px rgba(42, 178, 255, 0.8), 
+                 0 0 30px rgba(42, 178, 255, 0.6),
+                 0 0 45px rgba(42, 178, 255, 0.4),
+                 0 0 60px rgba(42, 178, 255, 0.2) !important;
+}
+
+.dark-mode #skill9 i:hover{
+    color: rgb(255, 64, 0) !important;
+    text-shadow: 0 0 15px rgba(236, 90, 41, 0.8), 
+                 0 0 30px rgba(236, 90, 41, 0.6),
+                 0 0 45px rgba(236, 90, 41, 0.4),
+                 0 0 60px rgba(236, 90, 41, 0.2) !important;
+}
+.dark-mode #skill10 i:hover{
+    color: rgb(255, 21, 0) !important;
+    text-shadow: 0 0 15px rgba(255, 117, 104, 0.8), 
+                 0 0 30px rgba(255, 117, 104, 0.6),
+                 0 0 45px rgba(255, 117, 104, 0.4),
+                 0 0 60px rgba(255, 117, 104, 0.2) !important;
+}
+
+.dark-mode .edu p {
+    color: #bdbdbd !important;
+}
+
+/*projects-sec*/
+.dark-mode #projects-sec,
+.dark-mode .see-more-container,
+.dark-mode .title-projects {
+    background-color: #2c3440 !important;
+}
+
+.dark-mode .project {
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-mode .project-main::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 40%, rgba(143, 142, 142, 0.8) 100%) !important;
+}
+
+.dark-mode .project-title {
+    color: var(--primary-white) !important;
+}
+
+
+.dark-mode .project-subtitle {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark-mode .project-cover {
+    background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark-mode .cover-content p {
+    color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.dark-mode .tech-tag {
+    background: rgba(255, 149, 0, 0.397) !important;
+    color: #724300 !important;
+}
+
+.dark-mode .see-more-btn {
+    background: rgba(255, 149, 0, 0.3) !important;
+    border: 2px solid rgba(255, 149, 0, 0.2) !important;
+}
+
+.dark-mode .see-more-btn:hover {
+    background: rgba(255, 149, 0, 0.5) !important;
+    box-shadow: 0 5px 20px rgba(255, 188, 95, 0.2) !important;
+}
+
+.dark-mode #certifications {
+    background: linear-gradient(135deg, #154162, #642a16) !important;
+}
+
+.dark-mode #certifications h2 {
+    color: #d3d3d3 !important;
+}
+
+.dark-mode #certifications p {
+    color: var(--primary-white) !important;
+}
+
+.dark-mode .cert-card {
+    border: 1px solid #3e0d0d !important;
+    background: #606568 !important;
+    background: linear-gradient(135deg, #161f2f, #204050) !important;
+}
+
+.dark-mode .cert-content h3 {
+    color: #ffd6d6 !important;
+}
+
+.dark-mode .cert-content p {
+    color: #b89898 !important;
+}
+
+.dark-mode .cert-hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: var(--primary-black) !important;
+}
+
+.dark-mode #hover-text {
+    color: var(--primary-black) !important;
+}
+
+.dark-mode .cert-hover a {
+    background: #003873 !important;
+    color: #000000 !important;
+}
+
+.dark-mode .cert-hover a:hover {
+    background: #00254d !important;
+}
+
+/*contact*/
+.dark-mode #contact {
+    background-color: #3d484b !important;
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode .send {
+
+    background-color: #238cfc1e !important;
+    border: 1px solid rgb(255, 255, 255) !important;
+    color: #f0f0f0 !important;
+
+}
+
+.dark-mode .send {
+
+    background-color: #002c5a1e !important;
+    border: 1px solid rgb(255, 255, 255) !important;
+    color: #f0f0f0 !important;
+
+}
+
+.dark-mode .send{
+    background-color: rgb(0, 63, 63) !important;
+  }
+  
+  .dark-mode .send:hover{
+    background-color: rgb(3, 125, 125) !important;
+  }
+.dark-mode footer {
+    background: linear-gradient(to bottom, #00232f, #e6f2ff) !important;
+    color: #ffffff !important;
+  }
+.dark-mode footer i {
+    color: rgb(255, 0, 0) !important;
+  }
+  
+.dark-mode footer a {
+    color: rgb(255, 0, 0) !important;
+  }
+
+
+
+
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+    .dark-mode nav ul {
+        background: var(--linear-dark) !important;
+        box-shadow: 0 4px 8px rgba(103, 99, 99, 0.8) !important;
+    }
+
+    .dark-mode nav ul li a {
+        color: rgb(255, 255, 255) !important;
+    }
+
+    .dark-mode nav ul li a:hover {
+        background: linear-gradient(to right, #000000, #000) !important;
+    }
+
+    .dark-mode .menu-icon {
+        display: block !important;
+    }
+}

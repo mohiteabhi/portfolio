@@ -1,0 +1,435 @@
+import { Component, ElementRef, AfterViewInit, OnDestroy , ViewChild, HostListener } from '@angular/core';
+import { Engine } from 'tsparticles-engine';
+import { loadSlim } from 'tsparticles-slim';
+import { ISourceOptions } from 'tsparticles-engine';
+import { DarkModeService } from '../service/dark-mode.service'; 
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-hero',
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.css']
+})
+export class HeroComponent implements AfterViewInit {
+
+  isDarkMode: boolean = true;
+
+  constructor() { }
+  
+  particlesOptions: ISourceOptions = {
+    background: {
+      color: {
+        value: 'transparent',
+      },
+    },
+    fpsLimit: 120,
+    interactivity: {
+      events: {
+        onClick: {
+          enable: true,
+          mode: 'push'
+        },
+        onHover: {
+          enable: true,
+          mode: 'repulse'
+        },
+      },
+      modes: {
+        push: {
+          quantity: 4
+        },
+        repulse: {
+          distance: 200,
+          duration: 0.4
+        }
+      }
+    },
+    particles: {
+      color: {
+        value: ['#ffffff', '#ffffff', '#ffffff'],
+      },
+      links: {
+        color: '#ffffff',
+        distance: 150,
+        enable: true,
+        opacity: 0.5,
+        width: 1,
+      },
+      move: {
+        direction: 'none',
+        enable: true,
+        outModes: {
+          default: 'bounce',
+        },
+        random: false,
+        speed: 3,
+        straight: false,
+      },
+      number: {
+        density: {
+          enable: true,
+        },
+        value: 150,
+      },
+      opacity: {
+        value: 0.5,
+      },
+      shape: {
+        type: 'circle',
+      },
+      size: {
+        value: 4,
+        random: true
+      },
+    },
+    detectRetina: true,
+  };
+
+  async particlesInit(engine: Engine): Promise<void> {
+    await loadSlim(engine);
+  }
+  
+  wordList: string[] = ['An Engineer', 'Frontend Developer'];
+  wordIndex: number = 0;
+  charIndex: number = 0;
+  isDeleting: boolean = false;
+  typingSpeed: number = 150;
+  erasingSpeed: number = 100;
+  delayBetweenWords: number = 1000;
+  displayedText: string = '';
+
+  @ViewChild('cardContainer') cardContainer!: ElementRef;
+  @ViewChild('downloadButton') downloadButton!: ElementRef;
+
+
+
+
+  ngAfterViewInit() {
+    this.type();
+  }
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (!this.cardContainer || !this.downloadButton) return;
+
+    const card = this.cardContainer.nativeElement.querySelector('.card');
+    const button = this.downloadButton.nativeElement;
+
+    if (card) {
+        const { left, top, width, height } = card.getBoundingClientRect();
+        const x = (event.clientX - left - width / 2) / 40; // Reduced effect range
+        const y = -(event.clientY - top - height / 2) / 40;
+        card.style.transform = `rotateY(${x}deg) rotateX(${y}deg) translateZ(30px)`; // Adjusted translateZ for subtle effect
+    }
+
+    if (button) {
+        const { left, top, width, height } = button.getBoundingClientRect();
+        const x = (event.clientX - left - width / 2) / 40; // More reduced effect for button
+        const y = -(event.clientY - top - height / 2) / 40;
+        button.style.transform = `rotateY(${x}deg) rotateX(${y}deg) translateZ(10px)`;
+    }
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    if (!this.cardContainer || !this.downloadButton) return;
+
+    const card = this.cardContainer.nativeElement.querySelector('.card');
+    const button = this.downloadButton.nativeElement;
+
+    if (card) card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+    if (button) button.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+}
+
+  
+  type() {
+    const currentWord = this.wordList[this.wordIndex];
+
+    if (!this.isDeleting && this.charIndex < currentWord.length) {
+      this.displayedText = currentWord.substring(0, this.charIndex + 1);
+      this.charIndex++;
+      setTimeout(() => this.type(), this.typingSpeed);
+    } 
+    else if (this.isDeleting && this.charIndex > 0) {
+      this.displayedText = currentWord.substring(0, this.charIndex - 1);
+      this.charIndex--;
+      setTimeout(() => this.type(), this.erasingSpeed);
+    } 
+    else if (!this.isDeleting && this.charIndex === currentWord.length) {
+      this.isDeleting = true;
+      setTimeout(() => this.type(), this.delayBetweenWords);
+    } 
+    else if (this.isDeleting && this.charIndex === 0) {
+      this.isDeleting = false;
+      this.wordIndex = (this.wordIndex + 1) % this.wordList.length;
+      setTimeout(() => this.type(), this.typingSpeed);
+    }
+  }
+}
+
+
+
+
+import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Engine } from 'tsparticles-engine';
+import { loadSlim } from 'tsparticles-slim';
+import { ISourceOptions } from 'tsparticles-engine';
+import { DarkModeService } from '../service/dark-mode.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-hero',
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.css']
+})
+export class HeroComponent implements AfterViewInit, OnDestroy {
+  isDarkMode: boolean = false;
+  private engine: Engine | undefined;
+
+  // Getter for particlesOptions that returns the correct configuration based on isDarkMode
+  get particlesOptions(): ISourceOptions {
+    const baseConfig: ISourceOptions = {
+      background: {
+        color: {
+          value: 'transparent',
+        },
+      },
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onClick: {
+            enable: true,
+            mode: 'push'
+          },
+          onHover: {
+            enable: true,
+            mode: 'repulse'
+          },
+        },
+        modes: {
+          push: {
+            quantity: 4
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.4
+          }
+        }
+      },
+      particles: {
+        color: {
+          value: this.isDarkMode
+            ? ['#ffffff', '#ffffff', '#ffffff']
+            : ['#3d6b73', '#26514c', '#102133'],
+        },
+        links: {
+          color: this.isDarkMode ? '#61dafb' : '#3d6b73',
+          distance: 150,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+        move: {
+          direction: 'none',
+          enable: true,
+          outModes: {
+            default: 'bounce',
+          },
+          random: false,
+          speed: 3,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 150,
+        },
+        opacity: {
+          value: 0.5,
+        },
+        shape: {
+          type: 'circle',
+        },
+        size: {
+          value: 4,
+          random: true
+        },
+      },
+      detectRetina: true,
+    };
+
+    return baseConfig;
+  }
+
+  constructor(private darkModeService: DarkModeService) { }
+
+  async particlesInit(engine: Engine): Promise<void> {
+    this.engine = engine;
+    await loadSlim(engine);
+  }
+
+  refreshParticles() {
+    this.isDarkMode = !this.isDarkMode;
+    setTimeout(() => {
+      this.isDarkMode = !this.isDarkMode;
+    }, 10);
+  }
+
+  wordList: string[] = ['An Engineer', 'Frontend Developer'];
+  wordIndex: number = 0;
+  charIndex: number = 0;
+  isDeleting: boolean = false;
+  typingSpeed: number = 150;
+  erasingSpeed: number = 100;
+  delayBetweenWords: number = 1000;
+  displayedText: string = '';
+
+  @ViewChild('cardContainer') cardContainer!: ElementRef;
+  @ViewChild('downloadButton') downloadButton!: ElementRef;
+
+  ngAfterViewInit() {
+    this.type();
+    if (typeof this.darkModeService.isDarkMode === 'function') {
+      this.isDarkMode = this.darkModeService.isDarkMode();
+    }
+    else {
+      const darkModeObs = this.darkModeService.isDarkMode as unknown as { subscribe: (callback: (value: boolean) => void) => Subscription };
+      this.darkModeSubscription = darkModeObs.subscribe((isDarkMode: boolean) => {
+        this.isDarkMode = isDarkMode;
+        this.refreshParticles();
+      });
+    }
+  }
+
+  private darkModeSubscription: Subscription = new Subscription();
+
+  ngOnDestroy() {
+    if (this.darkModeSubscription) {
+      this.darkModeSubscription.unsubscribe();
+    }
+  }
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (!this.cardContainer || !this.downloadButton) return;
+
+    const card = this.cardContainer.nativeElement.querySelector('.card');
+    const button = this.downloadButton.nativeElement;
+
+    if (card) {
+      const { left, top, width, height } = card.getBoundingClientRect();
+      const x = (event.clientX - left - width / 2) / 40;
+      const y = -(event.clientY - top - height / 2) / 40;
+      card.style.transform = `rotateY(${x}deg) rotateX(${y}deg) translateZ(30px)`;
+    }
+
+    if (button) {
+      const { left, top, width, height } = button.getBoundingClientRect();
+      const x = (event.clientX - left - width / 2) / 40;
+      const y = -(event.clientY - top - height / 2) / 40;
+      button.style.transform = `rotateY(${x}deg) rotateX(${y}deg) translateZ(10px)`;
+    }
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    if (!this.cardContainer || !this.downloadButton) return;
+
+    const card = this.cardContainer.nativeElement.querySelector('.card');
+    const button = this.downloadButton.nativeElement;
+
+    if (card) card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+    if (button) button.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+  }
+
+  type() {
+    const currentWord = this.wordList[this.wordIndex];
+
+    if (!this.isDeleting && this.charIndex < currentWord.length) {
+      this.displayedText = currentWord.substring(0, this.charIndex + 1);
+      this.charIndex++;
+      setTimeout(() => this.type(), this.typingSpeed);
+    }
+    else if (this.isDeleting && this.charIndex > 0) {
+      this.displayedText = currentWord.substring(0, this.charIndex - 1);
+      this.charIndex--;
+      setTimeout(() => this.type(), this.erasingSpeed);
+    }
+    else if (!this.isDeleting && this.charIndex === currentWord.length) {
+      this.isDeleting = true;
+      setTimeout(() => this.type(), this.delayBetweenWords);
+    }
+    else if (this.isDeleting && this.charIndex === 0) {
+      this.isDeleting = false;
+      this.wordIndex = (this.wordIndex + 1) % this.wordList.length;
+      setTimeout(() => this.type(), this.typingSpeed);
+    }
+  }
+}
+
+navbar.component.ts:
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DarkModeService } from '../service/dark-mode.service'; 
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
+})
+export class NavbarComponent {
+  menuOpen: boolean = false;
+  isDarkMode: boolean = false;
+  constructor(private darkModeService: DarkModeService) {} 
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  scrollToSection(sectionId: string, event: Event): void {
+    event.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', `#${sectionId}`);
+    }
+    this.menuOpen = false;
+  }
+
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    this.darkModeService.toggleDarkMode();
+  }
+}
+
+
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs'; 
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DarkModeService {
+  private darkModeSubject = new BehaviorSubject<boolean>(false);
+  darkMode$ = this.darkModeSubject.asObservable();
+
+  toggleDarkMode(): void {
+    this.darkModeSubject.next(!this.darkModeSubject.value);
+  }
+
+  // You might also add a getter if needed:
+  isDarkMode(): boolean {
+    return this.darkModeSubject.value;
+  }
+}
+
+
+npm install --save \@fortawesome/angular-fontawesome@^0.12.0 \@fortawesome/fontawesome-svg-core \@fortawesome/free-solid-svg-icons

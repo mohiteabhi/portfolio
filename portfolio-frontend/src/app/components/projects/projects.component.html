@@ -1,0 +1,89 @@
+<!-- index.html -->
+<!-- <h2 class="title Project-Title" id="navigation">My <span class="spn">Projects <i class="fa-solid fa-microchip"></i></span></h2> -->
+<div id="my-projects" class="title title-projects">
+  <h2>My <span class="spn">Projects <i class="fa-solid fa-microchip"></i></span></h2>
+</div>
+
+<section id="projects-sec">
+  <!-- Project loop using Angular *ngFor -->
+  <div class="project" *ngFor="let project of visibleProjects">
+    <a [href]="project.link" target="_blank" class="project-link">
+      <div class="project-main" [style.background-image]="'url(' + project.image + ')'">
+        <h3 class="project-title">{{ project.title }}</h3>
+        <p class="project-subtitle">{{ project.subtitle }}</p>
+      </div>
+      <div class="project-cover">
+        <div class="cover-content">
+          <h4>{{ project.coverTitle }}</h4>
+          <p>{{ project.technologies }}</p>
+          <div class="tech-stack">
+            <span class="tech-tag" *ngFor="let tag of project.tags">{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="see-more-container">
+  <a class="see-more-btn" (click)="toggleProjects()">
+    {{ showAll ? 'Show Less' : 'Explore More Projects' }}
+    <i class="fas fa-arrow-right"></i>
+  </a>
+</div>
+
+<section id="certifications">
+  <h2>Certifications 🏆</h2>
+  <p>Recognized achievements in programming and technology.</p>
+  <div class="certifications-grid">
+    <div class="certifications-grid">
+
+      <div class="cert-card">
+        <div class="cert-content">
+          <img src="assets/images/Java-full-stack.png" alt="Java Certification">
+          <h3>Java Full Stack Development</h3>
+          <p>Capgemini-Edubridge | Sept 2024</p>
+        </div>
+        <div class="cert-hover">
+          <p>Basic full-stack development concepts.</p>
+          <a href="assets/images/EBEON0624914019.pdf" target="_blank">View Certificate</a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-content">
+          <img src="assets/images/claude-img.png" alt="Claude Certification">
+          <h3>Claude Code in Action</h3>
+          <p>Anthropic | March 2026</p>
+        </div>
+        <div class="cert-hover">
+          <p>Introduction to Claude's capabilities in code generation and assistance.</p>
+          <a href="assets/images/certificate-xfd5nckdocm7-1774698730.pdf" target="_blank">View Certificate</a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-content">
+          <img src="assets/images/postman.png" alt="Postman Certification">
+          <h3>Postman API Fundamentals</h3>
+          <p>Postman | Aug 2024</p>
+        </div>
+        <div class="cert-hover">
+          <p>Comprehensive understanding of API creation, testing, and integration using Postman tools.</p>
+          <a href="https://badgr.com/public/assertions/gVkFk9jETfaXMTMj_QBRJA" target="_blank">View Certificate</a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-content">
+          <img src="assets/images/javapng.png" alt="Postman Certification">
+          <h3>Java 2024</h3>
+          <p>Core2Web | Oct 2024</p>
+        </div>
+        <div class="cert-hover">
+          <p>In-depth knowledge of Java, JVM internals and Java fundamentals.</p>
+          <a href="assets/images/JAVA2024-certificate.pdf" target="_blank">View Certificate</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

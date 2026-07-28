@@ -1,0 +1,65 @@
+<!-- <div class="contact-container">
+  <h2 class=" ">Get in <span class="highlight">Touch</span> 📧</h2>
+
+  <form [formGroup]="contactForm" (ngSubmit)="sendEmail()">
+      <label>Name</label>
+      <input type="text" formControlName="name" placeholder="Your Name" />
+
+      <label>Email</label>
+      <input type="email" formControlName="email" placeholder="example@gmail.com" />
+
+      <label>Subject</label>
+      <input type="text" formControlName="subject" placeholder="Your subject" />
+
+      <label>Message</label>
+      <textarea formControlName="message" placeholder="Your Message"></textarea>
+
+      <button type="submit" [disabled]="isLoading">
+          {{ isLoading ? 'Sending...' : 'Send' }}
+      </button>
+  </form>
+
+  <p *ngIf="isSent" class="success-message">✅ Email Sent Successfully!</p>
+</div> -->
+
+
+<section id="contact">
+  <div class="cont">
+    <h2>Get in <span class="highlight">Touch</span> 📧</h2>
+  </div>
+
+  <form class="form" [formGroup]="contactForm" (ngSubmit)="sendEmail()" style="width: 50%;">
+      <label class="field">Name</label>
+          <input type="text" formControlName="name" placeholder="Your Name" required>
+
+      <label class="field">Email</label>
+          <input type="email" formControlName="email" placeholder="example@gmail.com" />
+
+      <label class="field">Subject</label>
+          <input type="text" formControlName="subject" placeholder="Your subject" />
+    
+      <label class="field">Message</label>
+          <textarea formControlName="message" placeholder="Your Message"></textarea>
+
+      <button class="send" type="submit" [disabled]="isLoading">
+            {{ isLoading ? 'Sending...' : 'Send' }}
+        </button>
+    </form>
+    <p *ngIf="isSent" class="success-message">✅ Email Sent Successfully!</p>
+
+</section>
+
+<footer>
+    <div class="footer-container">
+      <p>
+        Made with <i class="fa-solid fa-heart"></i> by
+        <a
+          href="https://www.linkedin.com/in/abhijeet-mohite-768829220/"
+          target="_blank"
+        >
+          Abhijeet Mohite
+        </a>
+      </p>
+      <span class="version">v1.0.0</span>
+    </div>
+  </footer>

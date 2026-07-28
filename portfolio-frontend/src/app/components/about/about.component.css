@@ -1,0 +1,377 @@
+.spn{
+    color: #ff9500;
+}
+
+#about{
+    background-color: var(--bg-about);
+}
+
+.title{
+    text-align: center;
+    font-size: 2em;
+    margin-top: 0px;
+    padding-top: 35px;
+    background-color: var(--bg-about);
+}
+
+.about-card{
+    background: linear-gradient(135deg, var(--bg-about), var(--bg-about-linear));
+    padding: 20px; /* Space around the content */
+    border-radius: 10px; /* Rounded corners for a card look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.805); /* Subtle shadow for card effect */
+    max-width: 70%; /* Adjust width as needed */
+    transition: var(--transition-duration);
+}
+.about-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.805);
+    background: linear-gradient(135deg, var(--bg-about-linear), var(--hero-light-blue));
+}
+#about-sec {
+    padding: 20px;
+    background-color: var(--bg-about);
+    margin-bottom: 0px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+ul{
+    list-style: none;
+}
+
+/* Left side styling for the text and social icons */
+.about-text {
+    flex: 1;
+    max-width: 100%;
+}
+
+.about-text h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.letterA{
+    font-size: 2em; 
+}
+.about-text p {
+    font-size: 1em;
+    line-height: 2.0;
+    margin-bottom: 20px;
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.experience-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #ff9500;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+    animation: fadeInUp 1s ease-out;
+    transition: all 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.experience-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.experience-header i {
+    font-size: 1.8em;
+    color: #ff9500;
+}
+
+.experience-card ul {
+    padding-left: 20px;
+}
+
+.experience-card li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+}
+
+.experience-card li i {
+    margin-top: 5px;
+    color: #4dabf7;
+}
+
+.socials {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+}
+
+.socials li a {
+    font-size: 2em;
+    color: #000000;
+    text-decoration: none;
+}
+
+
+.socials li a:hover {
+    color: #0077b5; /* LinkedIn color for example */
+}
+
+.about-card-edu{
+    background: linear-gradient(135deg, var(--bg-about), var(--bg-about-linear));
+    padding: 20px; /* Space around the content */
+    border-radius: 10px; /* Rounded corners for a card look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.805); /* Subtle shadow for card effect */
+    max-width: 100%; /* Adjust width as needed */
+    transition: var(--transition-duration);
+}
+
+.about-card-edu:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.805);
+    background: linear-gradient(135deg, var(--bg-about-linear), var(--hero-light-blue));
+}
+
+/* Right side styling for Skills and Education */
+.skills-edu {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex: 1;
+    max-width: 40%;
+}
+
+.skills-edu h2{
+    font-size: 28px;
+}
+
+/* Skills section */
+.skills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 20px;
+    text-align: center;
+
+}
+
+
+
+
+.skills h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+
+.skill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10%;
+}
+
+
+
+.skill > div:nth-child(n+9) {
+    grid-column: span 2; 
+}
+
+.skill div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1em;
+    color: #555;
+}
+
+.skill i {
+    font-size: 3em;
+    color: var(--primary-black);
+    margin-bottom: 10px;
+}
+
+#skill1 i:hover{
+    color: #fc9c00;
+    text-shadow: 0 0 15px rgba(255, 157, 0, 0.8), 
+                 0 0 30px rgba(255, 157, 0, 0.6),
+                 0 0 45px rgba(255, 157, 0, 0.4),
+                 0 0 60px rgba(255, 157, 0, 0.2);
+}
+
+#skill-ang i:hover{
+    color: rgb(255, 47, 47);
+    text-shadow: 0 0 15px rgba(255, 47, 47, 0.8), 
+                 0 0 30px rgba(255, 47, 47, 0.6),
+                 0 0 45px rgba(255, 47, 47, 0.4),
+                 0 0 60px rgba(255, 47, 47, 0.2);
+}
+
+#skill2 i:hover{
+    color: #ffeeab;
+    text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 
+                 0 0 30px rgba(255, 204, 0, 0.6),
+                 0 0 45px rgba(255, 204, 0, 0.4),
+                 0 0 60px rgba(255, 204, 0, 0.2);
+}
+
+#skill3 i:hover{
+    color: #ffbf91;
+    text-shadow: 0 0 15px rgba(255, 106, 0, 0.8), 
+                 0 0 30px rgba(255, 106, 0, 0.6),
+                 0 0 45px rgba(255, 106, 0, 0.4),
+                 0 0 60px rgba(255, 106, 0, 0.2);
+}
+
+#skill4 i:hover{
+    color: rgb(37, 75, 221);
+    text-shadow: 0 0 15px rgba(37, 75, 221, 0.8), 
+                 0 0 30px rgba(37, 75, 221, 0.6),
+                 0 0 45px rgba(37, 75, 221, 0.4),
+                 0 0 60px rgba(37, 75, 221, 0.2);
+}
+
+#skill5 i:hover{
+    color: rgb(131, 17, 246);
+    text-shadow: 0 0 15px rgba(131, 17, 246, 0.8), 
+                 0 0 30px rgba(131, 17, 246, 0.6),
+                 0 0 45px rgba(131, 17, 246, 0.4),
+                 0 0 60px rgba(131, 17, 246, 0.2);
+}
+
+#skill6 i:hover{
+    color: rgb(247, 224, 37);
+    text-shadow: 0 0 15px rgba(247, 224, 37, 0.8), 
+                 0 0 30px rgba(247, 224, 37, 0.6),
+                 0 0 45px rgba(247, 224, 37, 0.4),
+                 0 0 60px rgba(247, 224, 37, 0.2);
+}
+
+#skill7 i:hover{
+    color: rgb(201, 200, 203);
+    text-shadow: 0 0 15px rgba(201, 200, 203, 0.8), 
+                 0 0 30px rgba(201, 200, 203, 0.6),
+                 0 0 45px rgba(201, 200, 203, 0.4),
+                 0 0 60px rgba(201, 200, 203, 0.2);
+}
+
+#skill8 i:hover{
+    color: rgb(42, 178, 255);
+    text-shadow: 0 0 15px rgba(42, 178, 255, 0.8), 
+                 0 0 30px rgba(42, 178, 255, 0.6),
+                 0 0 45px rgba(42, 178, 255, 0.4),
+                 0 0 60px rgba(42, 178, 255, 0.2);
+}
+
+#skill9 i:hover{
+    color: rgb(236, 90, 41);
+    text-shadow: 0 0 15px rgba(236, 90, 41, 0.8), 
+                 0 0 30px rgba(236, 90, 41, 0.6),
+                 0 0 45px rgba(236, 90, 41, 0.4),
+                 0 0 60px rgba(236, 90, 41, 0.2);
+}
+#skill10 i:hover{
+    color: rgb(255, 117, 104);
+    text-shadow: 0 0 15px rgba(255, 117, 104, 0.8), 
+                 0 0 30px rgba(255, 117, 104, 0.6),
+                 0 0 45px rgba(255, 117, 104, 0.4),
+                 0 0 60px rgba(255, 117, 104, 0.2);
+}
+
+.skill p:hover{
+    text-shadow: 0 0 120px rgb(255, 204, 0);
+}
+
+.skill p {
+    font-size: 1em;
+    color: #000000;
+    margin: 0;
+}
+
+
+.edu h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.edu div {
+    margin-bottom: 15px;
+}
+
+.edu h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.edu p {
+    font-size: 1em;
+    color: #555;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    /* .skills{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    }
+
+    .skills-edu{
+        margin-right: 26px;
+    }
+
+    .edu h2 {
+        margin-left: -7px;
+        font-size: 21px;
+    }
+
+    .about-card{
+        max-width: 92%;
+    } */
+    .container {
+        flex-direction: column; /* Stack elements vertically */
+    }
+
+    .skills-edu {
+        max-width: 100%;
+        margin-top: 20px; /* Adds spacing between About and Skills/Education */
+        margin-right: 0;
+    }
+
+    .skills {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+    }
+
+    .edu h2 {
+        margin-left: -7px;
+        font-size: 21px;
+    }
+
+    .about-card {
+        max-width: 92%;
+    }
+}
+

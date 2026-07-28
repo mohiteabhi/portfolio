@@ -1,0 +1,49 @@
+html {
+    scroll-behavior: smooth;
+  }
+
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode nav {
+    background: linear-gradient(to right, #000000, #000);
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.8);
+}
+
+.dark-mode .logo {
+    color: #ffffff;
+}
+
+
+.dark-mode nav ul li a {
+    color: #ffffff;
+}
+
+.dark-mode nav ul li a:hover {
+    color: #4db8ff;
+}
+.dark-mode .menu-icon i {
+    color: #ffffff;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 600px) {
+    .dark-mode nav ul {
+        background: linear-gradient(to right, #000000, #000);
+        box-shadow: 0 4px 8px rgba(103, 99, 99, 0.8);
+    }
+
+    .dark-mode nav ul li a {
+        color: rgb(255, 255, 255);
+    }
+
+    .dark-mode nav ul li a:hover {
+        background: linear-gradient(to right, #000000, #000);
+    }
+
+    .dark-mode .menu-icon {
+        display: block !important;
+    }
+}

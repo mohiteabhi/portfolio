@@ -1,0 +1,266 @@
+:host {
+    display: block;
+    position: relative;
+    overflow: hidden !important;
+    height: 100vh;
+    isolation: isolate;
+    contain: strict;
+    z-index: 0;
+}
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.particle-canvas ng-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#hero-sec{
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(135deg, rgb(180, 219, 246, 0.8), #ffccbc);
+    overflow: hidden !important;
+    /* isolation: isolate; */
+} 
+.particles-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* #hero-particles {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+} */
+
+#hero-particles {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    contain: strict !important;
+    overflow: hidden !important;
+  }
+  
+.hero-content{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.hero-content h1{
+    font-size: 50px;
+    color: #102133;
+    margin: 10px 0;
+    
+}
+
+.hero-content h2{
+    font-size: 30px;
+    color: #3d6b73;
+    margin: 0; /* Remove margin for better spacing */
+}
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    height: 300px; /* Adjusted to prevent large gaps */
+    perspective: 500px; /* Creates the 3D effect */
+}
+
+.card {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* transition: transform 0.2s ease-out; */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.card:hover {
+    transform: translateZ(50px);
+}
+
+.card:hover img {
+    /* transform: rotateY(10deg) rotateX(10deg) scale(1.05); */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+
+
+
+.hero-content .download{   color: #882323;
+    border: 1px #26514c solid;
+    border-radius: 1000px;
+    /* padding: 11px 20px; */
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    display: inline-block;
+    background: white;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transform-style: preserve-3d;
+
+}
+
+.hero-content .download a{
+    text-decoration: none;
+    color: var(--primary-black);
+
+}
+
+.hero-content .download:hover{
+  transform: translateZ(15px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+}
+
+.hero-content .download:active {
+    transform: translateZ(5px) scale(0.98);
+}
+
+.hero-content img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-tagline {
+    font-size: 18px;
+    color: #26514c;
+    margin: 5px 0;
+    line-height: 1.6;
+    max-width: 600px;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.9;
+}
+@media screen and (max-width: 768px) {
+      .hero-content img {
+        width: 200px;
+        height: 200px; 
+    }
+
+    #hero-sec {
+        height: 100vh; /* Increase height for the hero section in mobile view */
+    }
+
+    #particles-js {
+        height: 150vh;
+    }
+
+    .hero-content {
+        padding: 20px;
+       /* top: 45%;  Adjust the positioning to keep content centered */
+    }
+
+    .hero-tagline {
+        font-size: 14px;
+        padding: 0 20px;
+        margin: 15px 0;
+    }
+}
+
+.download {
+    border: 1px solid #26514c;
+    border-radius: 1000px;
+    background: #fff;
+    cursor: pointer;
+    padding: 0;                /* We let the <a> define size */
+    display: inline-block;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    transform-style: preserve-3d;
+  }
+  
+  .download a {
+    position: relative;
+    display: inline-block;
+    /* Set a width that comfortably fits "Download Resume" on one line */
+    width: 220px;
+    height: 40px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    overflow: hidden;
+    white-space: nowrap;       /* Prevent text from wrapping */
+    border-radius: 1000px;     /* Matches the button shape */
+  }
+  
+  /* Center the text & icon absolutely */
+  .download__text,
+  .download__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  /* Icon starts off to the left and invisible */
+  .download__icon {
+    opacity: 0;
+    transform: translate(-150%, -50%);
+  }
+  
+  /* Hover: text slides right, icon slides in */
+  .download a:hover .download__text {
+    transform: translate(150%, -50%);
+  }
+  
+  .download a:hover .download__icon {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+  
+  /* 3D hover effect from your existing code */
+  .download:hover {
+    transform: translateZ(15px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  }
+  .download:active {
+    transform: translateZ(5px) scale(0.98);
+  }

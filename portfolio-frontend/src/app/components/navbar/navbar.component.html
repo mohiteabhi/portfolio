@@ -1,0 +1,24 @@
+<nav>
+  <div class="logo">
+    <!-- <h1>Logo</h1> -->
+    <a href="https://www.linkedin.com/in/abhijeet-mohite-768829220/" target="_blank"><img src="assets/images/logo.png" alt="Logo" loading="lazy"></a>
+
+  </div>
+
+  <ul [ngStyle]="{'max-height': menuOpen ? '300px' : '0px'}" id="menuList">
+    <li><a href="#" (click)="scrollToSection('hero-sec', $event)">Home</a></li>
+    <li><a href="#about" (click)="scrollToSection('about', $event)">About</a></li>
+    <li><a href="#my-projects" (click)="scrollToSection('my-projects', $event)">Project</a></li>
+    <li><a href="#contact" (click)="scrollToSection('contact', $event)">Contact</a></li>
+    <li><div class="dark-mode-toggle" (click)="toggleDarkMode()">
+      <fa-icon class="custom-icon" [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
+    </div></li>  
+  </ul>
+
+  <div class="menu-icon">
+    <fa-icon
+    [icon]="menuOpen ? faTimes : faBars"
+    (click)="toggleMenu()"
+  ></fa-icon>
+  </div>
+</nav>
