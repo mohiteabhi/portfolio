@@ -9,10 +9,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @ApiTags('AI')
 @Controller('ai')
 export class AiController {
-  constructor(private readonly aiService: AiService, private readonly uploadService: UploadService) {}
+  constructor(private readonly aiService: AiService, private readonly uploadService: UploadService) { }
 
   @Get('health')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Health Check',
   })
   @ApiResponse({
@@ -45,7 +45,18 @@ export class AiController {
     type: UploadResponseDto,
   })
   @UseInterceptors(FileInterceptor('file', multerOptions))
-  upload(@UploadedFile() file: any){
+  upload(@UploadedFile() file: any) {
     return this.uploadService.upload(file);
+  }
+
+  @Get('test-llm')
+  @ApiOperation({
+    summary: 'Test Gemini connection',
+  })
+  @ApiResponse({
+    status: 200,
+  })
+  async testLLM() {
+    return await this.aiService.testLLM();
   }
 }
