@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable, InternalServerErrorException }
 import { ParsedDocument } from '../interfaces/document.interface';
 import { promises as fs } from 'fs';
 import path from 'path';
-const pdfParse = require('pdf-parse');
+import { PDFParse } from 'pdf-parse';
 import * as mammoth from 'mammoth';
 @Injectable()
 export class DocumentService {
@@ -53,19 +53,30 @@ export class DocumentService {
     }
 
     private async readPdf(
-        filePath: string,
-        fileName: string,
-    ): Promise<ParsedDocument> {
-        const buffer = await fs.readFile(filePath);
+  filePath: string,
+  fileName: string,
+): Promise<ParsedDocument> {
+  try {
+    const buffer = await fs.readFile(filePath);
 
-        const pdf = await pdfParse(buffer);
+    const parser = new PDFParse({
+      data: new Uint8Array(buffer),
+    });
 
-        return {
-            fileName,
-            extension: '.pdf',
-            content: pdf.text,
-        };
-    }
+    const result = await parser.getText();
+
+    await parser.destroy();
+
+    return {
+      fileName,
+      extension: '.pdf',
+      content: result.text,
+    };
+  } catch (error) {
+    console.error('PDF ERROR =>', error);
+    throw error;
+  }
+}
 
     private async readDocx(
     filePath: string,

@@ -5,6 +5,8 @@ import { UploadService } from '../services/upload.service';
 import { UploadResponseDto } from '../dto/upload-response.dto';
 import { multerOptions } from 'src/common/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Body } from '@nestjs/common';
+import { ParseDocumentDto } from '../dto/parse-document.dto';
 
 @ApiTags('AI')
 @Controller('ai')
@@ -58,5 +60,19 @@ export class AiController {
   })
   async testLLM() {
     return await this.aiService.testLLM();
+  }
+
+
+  @Post('parse')
+  @ApiOperation({
+    summary: 'Parse uploaded document into chunks',
+  })
+  @ApiResponse({
+    status: 200,
+  })
+  parse(
+    @Body() dto: ParseDocumentDto,
+  ) {
+    return this.aiService.parseDocument(dto.fileName);
   }
 }
