@@ -19,39 +19,40 @@ export class EmbeddingService {
   constructor(
     @Inject(GEMINI_CLIENT)
     private readonly gemini: GoogleGenAI,
-  ) {}
+  ) { }
 
-  async embedChunks(
-    chunks: DocumentChunk[],
-  ): Promise<EmbeddedChunk[]> {
-    try {
-      const embeddedChunks: EmbeddedChunk[] = [];
+async embedChunks(
+  chunks: DocumentChunk[],
+): Promise<EmbeddedChunk[]> {
+  try {
+    const embeddedChunks: EmbeddedChunk[] = [];
 
-      for (const chunk of chunks) {
-        
-        const response = await this.gemini.models.embedContent({
-          model: 'text-embedding-004',
+    for (const chunk of chunks) {
+      const response = await this.gemini.models.embedContent({
+        model: 'gemini-embedding-001',
+        contents: chunk.content,
+      });
 
-          contents: [chunk.content],
-        });
-
-        const embeddingValues = response.embeddings?.values ?? response.embeddings?.[0]?.values;
-        if (!embeddingValues) {
-          throw new Error(`Failed to extract embedding values for chunk ID: ${chunk.id}`);
-        }
-        embeddedChunks.push({
-          ...chunk,
-          embedding: embeddingValues
-        });
+      if (!response.embeddings?.length) {
+        throw new Error(
+          `No embedding returned for chunk ${chunk.id}`,
+        );
       }
 
-      return embeddedChunks;
-    } catch (error) {
-      this.logger.error(error);
-
-      throw new InternalServerErrorException(
-        'Failed to generate embeddings.',
-      );
+      embeddedChunks.push({
+        ...chunk,
+        embedding: response.embeddings[0].values!,
+      });
     }
+
+    return embeddedChunks;
+  } catch (error) {
+    this.logger.error(error);
+
+    throw new InternalServerErrorException(
+      'Failed to generate embeddings.',
+    );
   }
+}
+
 }

@@ -4,6 +4,7 @@ import { Express } from 'express';
 import { GEMINI_CLIENT } from 'src/common/constants/ai.constants';
 import { DocumentService } from './document.service';
 import { SplitterService } from './splitter.service';
+import { IndexService } from './index.service';
 
 @Injectable()
 export class AiService {
@@ -14,6 +15,7 @@ export class AiService {
         private readonly documentService: DocumentService,
 
         private readonly splitterService: SplitterService,
+        private readonly indexService: IndexService,
     ) { }
 
     getHealth() {
@@ -60,5 +62,11 @@ export class AiService {
                 'Failed to parse document.',
             );
         }
+    }
+
+    async indexDocument(fileName: string) {
+        return await this.indexService.indexDocument(
+            fileName,
+        );
     }
 }

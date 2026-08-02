@@ -7,6 +7,7 @@ import { multerOptions } from 'src/common/config/multer.config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Body } from '@nestjs/common';
 import { ParseDocumentDto } from '../dto/parse-document.dto';
+import { IndexDocumentDto } from '../dto/index-document.dto';
 
 @ApiTags('AI')
 @Controller('ai')
@@ -74,5 +75,19 @@ export class AiController {
     @Body() dto: ParseDocumentDto,
   ) {
     return this.aiService.parseDocument(dto.fileName);
+  }
+
+  @Post('index')
+  @ApiOperation({
+    summary:
+      'Generate embeddings from document',
+  })
+  async index(
+    @Body()
+    dto: IndexDocumentDto,
+  ) {
+    return await this.aiService.indexDocument(
+      dto.fileName,
+    );
   }
 }
