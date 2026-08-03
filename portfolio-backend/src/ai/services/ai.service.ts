@@ -69,4 +69,8 @@ export class AiService {
             fileName,
         );
     }
+
+    async collectionInfo() {
+        return await this.indexService.collectionInfo();
+    }
 }

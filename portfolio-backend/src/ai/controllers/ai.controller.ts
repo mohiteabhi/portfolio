@@ -90,4 +90,10 @@ export class AiController {
       dto.fileName,
     );
   }
+
+
+  @Get('collection-info')
+  async collectionInfo() {
+    return await this.aiService.collectionInfo();
+  }
 }

@@ -28,20 +28,13 @@ async embedChunks(
     const embeddedChunks: EmbeddedChunk[] = [];
 
     for (const chunk of chunks) {
-      const response = await this.gemini.models.embedContent({
-        model: 'gemini-embedding-001',
-        contents: chunk.content,
-      });
-
-      if (!response.embeddings?.length) {
-        throw new Error(
-          `No embedding returned for chunk ${chunk.id}`,
-        );
-      }
+      const embedding = await this.generateEmbedding(
+        chunk.content,
+      );
 
       embeddedChunks.push({
         ...chunk,
-        embedding: response.embeddings[0].values!,
+        embedding,
       });
     }
 
@@ -51,6 +44,34 @@ async embedChunks(
 
     throw new InternalServerErrorException(
       'Failed to generate embeddings.',
+    );
+  }
+}
+
+  private async generateEmbedding(text: string): Promise<number[]> {
+    const response = await this.gemini.models.embedContent({
+      model: 'gemini-embedding-001',
+      contents: text,
+    });
+
+    if (
+      !response.embeddings?.length ||
+      !response.embeddings[0].values
+    ) {
+      throw new Error('No embedding returned by Gemini.');
+    }
+
+    return response.embeddings[0].values;
+  }
+
+  async embedQuery(question: string): Promise<number[]> {
+  try {
+    return await this.generateEmbedding(question);
+  } catch (error) {
+    this.logger.error(error);
+
+    throw new InternalServerErrorException(
+      'Failed to generate query embedding.',
     );
   }
 }

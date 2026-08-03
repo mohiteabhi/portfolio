@@ -7,6 +7,7 @@ import {
 import { DocumentService } from './document.service';
 import { SplitterService } from './splitter.service';
 import { EmbeddingService } from './embedding.service';
+import { VectorStoreService } from './vector-store.service';
 
 @Injectable()
 export class IndexService {
@@ -18,7 +19,9 @@ export class IndexService {
     private readonly splitterService: SplitterService,
 
     private readonly embeddingService: EmbeddingService,
-  ) {}
+
+    private readonly vectorStoreService: VectorStoreService,
+  ) { }
 
   async indexDocument(fileName: string) {
     try {
@@ -31,19 +34,16 @@ export class IndexService {
       const embeddings =
         await this.embeddingService.embedChunks(chunks);
 
+      await this.vectorStoreService.store(
+        embeddings,
+      );
+
       return {
         success: true,
 
-        totalChunks: embeddings.length,
+        indexedChunks: embeddings.length,
 
-        chunks: embeddings.map((chunk) => ({
-          id: chunk.id,
-
-          preview: chunk.content.substring(0, 100),
-
-          embeddingDimension:
-            chunk.embedding.length,
-        })),
+        message: 'Document indexed successfully',
       };
     } catch (error) {
       this.logger.error(error);
@@ -52,5 +52,9 @@ export class IndexService {
         'Failed to index document.',
       );
     }
+  }
+
+  async collectionInfo() {
+    return await this.vectorStoreService.getCollectionInfo();
   }
 }

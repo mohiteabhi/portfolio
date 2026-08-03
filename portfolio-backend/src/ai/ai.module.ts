@@ -11,9 +11,10 @@ import { SplitterService } from './services/splitter.service';
 import { VectorStoreService } from './services/vector-store.service';
 import { EmbeddingService } from './services/embedding.service';
 import { IndexService } from './services/index.service';
+import { ChromaProvider } from './providers/chroma.provider';
 
 @Module({
   controllers: [AiController],
-  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService],
+  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider],
 })
 export class AiModule {}
