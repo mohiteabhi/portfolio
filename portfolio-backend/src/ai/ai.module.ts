@@ -13,9 +13,10 @@ import { EmbeddingService } from './services/embedding.service';
 import { IndexService } from './services/index.service';
 import { ChromaProvider } from './providers/chroma.provider';
 import { SearchService } from './services/search.service';
+import { PromptBuilderService } from './services/prompt-builder.service';
 
 @Module({
   controllers: [AiController],
-  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider, SearchService],
+  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider, SearchService, PromptBuilderService],
 })
 export class AiModule {}

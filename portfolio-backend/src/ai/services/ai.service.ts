@@ -7,7 +7,7 @@ import { SplitterService } from './splitter.service';
 import { IndexService } from './index.service';
 import { SearchService } from './search.service';
 import { VectorStoreService } from './vector-store.service';
-
+import { ChatService } from './chat.service';
 @Injectable()
 export class AiService {
 
@@ -20,6 +20,7 @@ export class AiService {
         private readonly indexService: IndexService,
         private readonly searchService: SearchService,
         private readonly vectorStoreService: VectorStoreService,
+        private readonly chatService: ChatService,
     ) { }
 
     getHealth() {
@@ -88,4 +89,10 @@ export class AiService {
     async clearCollection() {
         return await this.vectorStoreService.clearCollection();
     }
+
+    async chat(question: string) {
+    return await this.chatService.chat(
+        question,
+    );
+}
 }

@@ -9,6 +9,7 @@ import { Body } from '@nestjs/common';
 import { ParseDocumentDto } from '../dto/parse-document.dto';
 import { IndexDocumentDto } from '../dto/index-document.dto';
 import { SearchDto } from '../dto/search.dto';
+import { ChatDto } from '../dto/chat.dto';
 
 @ApiTags('AI')
 @Controller('ai')
@@ -118,5 +119,21 @@ export class AiController {
   })
   clearCollection() {
     return this.aiService.clearCollection();
+  }
+
+  @Post('chat')
+  @ApiOperation({
+    summary: 'Chat with portfolio AI',
+  })
+  @ApiBody({
+    type: ChatDto,
+  })
+  async chat(
+    @Body()
+    dto: ChatDto,
+  ) {
+    return await this.aiService.chat(
+      dto.question,
+    );
   }
 }
