@@ -23,13 +23,13 @@ export class IndexService {
     private readonly vectorStoreService: VectorStoreService,
   ) { }
 
-  async indexDocument(fileName: string) {
+  async indexDocument(fileName: string, originalFileName: string,) {
     try {
       const document =
         await this.documentService.loadDocument(fileName);
 
       const chunks =
-        await this.splitterService.split(document);
+        await this.splitterService.split(document, originalFileName);
 
       const embeddings =
         await this.embeddingService.embedChunks(chunks);

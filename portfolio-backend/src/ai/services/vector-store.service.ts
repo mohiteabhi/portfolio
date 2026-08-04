@@ -9,6 +9,7 @@ import {
 import { ChromaClient } from 'chromadb';
 import { CHROMA_CLIENT, CHROMA_COLLECTION } from '../../common/constants/chroma.constants';
 import { EmbeddedChunk } from '../interfaces/embedding.interface';
+import { SearchResult } from '../interfaces/search-result.interface';
 
 @Injectable()
 export class VectorStoreService implements OnModuleInit {
@@ -50,8 +51,15 @@ export class VectorStoreService implements OnModuleInit {
 
                 metadatas: chunks.map((chunk) => ({
                     source: chunk.metadata.source,
+
+                    storedFileName: chunk.metadata.storedFileName,
+
                     chunkIndex: chunk.metadata.chunkIndex,
-                })),
+
+                    documentType: chunk.metadata.documentType,
+
+                    uploadedAt: chunk.metadata.uploadedAt,
+                }))
             });
 
             this.logger.log(`${chunks.length} chunks stored successfully.`);
@@ -79,6 +87,95 @@ export class VectorStoreService implements OnModuleInit {
 
             throw new InternalServerErrorException(
                 'Failed to fetch collection information.',
+            );
+        }
+    }
+
+    async search(
+        embedding: number[],
+        limit = 5,
+    ) {
+        try {
+            const collection =
+                await this.getCollection();
+
+            const result =
+                await collection.query({
+                    queryEmbeddings: [embedding],
+                    nResults: limit,
+                    include: [
+                        'documents',
+                        'metadatas',
+                        'distances',
+                    ],
+                });
+
+            const matches: SearchResult[] =
+                result.ids[0].map((id, index) => {
+
+                    const metadata = result.metadatas?.[0]?.[index] as any;
+
+                    return {
+
+                        id,
+
+                        content:
+                            result.documents?.[0]?.[index] ?? '',
+
+                        distance:
+                            result.distances?.[0]?.[index] ?? 0,
+
+                        source: metadata?.source ?? '',
+
+                        storedFileName:
+                            metadata?.storedFileName ?? '',
+
+                        chunkIndex:
+                            metadata?.chunkIndex ?? 0,
+
+                        documentType:
+                            metadata?.documentType ?? '',
+
+                        uploadedAt:
+                            metadata?.uploadedAt ?? '',
+                    };
+                });
+
+            return {
+                success: true,
+
+                totalMatches: matches.length,
+
+                matches,
+            };
+        } catch (error) {
+            this.logger.error(error);
+
+            throw new InternalServerErrorException(
+                'Failed to search vectors.',
+            );
+        }
+    }
+
+    async clearCollection() {
+        try {
+            await this.chroma.deleteCollection({
+                name: CHROMA_COLLECTION,
+            });
+
+            await this.getCollection();
+
+            this.logger.log(`Collection "${CHROMA_COLLECTION}" cleared successfully.`);
+
+            return {
+                success: true,
+                message: 'Collection cleared successfully.',
+            };
+        } catch (error) {
+            this.logger.error(error);
+
+            throw new InternalServerErrorException(
+                'Failed to clear collection.',
             );
         }
     }

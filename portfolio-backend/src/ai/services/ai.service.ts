@@ -5,6 +5,8 @@ import { GEMINI_CLIENT } from 'src/common/constants/ai.constants';
 import { DocumentService } from './document.service';
 import { SplitterService } from './splitter.service';
 import { IndexService } from './index.service';
+import { SearchService } from './search.service';
+import { VectorStoreService } from './vector-store.service';
 
 @Injectable()
 export class AiService {
@@ -16,6 +18,8 @@ export class AiService {
 
         private readonly splitterService: SplitterService,
         private readonly indexService: IndexService,
+        private readonly searchService: SearchService,
+        private readonly vectorStoreService: VectorStoreService,
     ) { }
 
     getHealth() {
@@ -48,7 +52,7 @@ export class AiService {
         try {
             const document = await this.documentService.loadDocument(fileName);
 
-            const chunks = await this.splitterService.split(document);
+            const chunks = await this.splitterService.split(document, fileName);
 
             return {
                 success: true,
@@ -64,13 +68,24 @@ export class AiService {
         }
     }
 
-    async indexDocument(fileName: string) {
+    async indexDocument(fileName: string, originalFileName: string,) {
         return await this.indexService.indexDocument(
             fileName,
+            originalFileName,
         );
     }
 
     async collectionInfo() {
         return await this.indexService.collectionInfo();
+    }
+
+    async search(question: string) {
+        return await this.searchService.search(
+            question,
+        );
+    }
+
+    async clearCollection() {
+        return await this.vectorStoreService.clearCollection();
     }
 }

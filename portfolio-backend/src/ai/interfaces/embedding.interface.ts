@@ -7,6 +7,13 @@ export interface EmbeddedChunk {
 
   metadata: {
     source: string;
+
+    storedFileName: string;
+
     chunkIndex: number;
+
+    documentType: string;
+
+    uploadedAt: string;
   };
 }

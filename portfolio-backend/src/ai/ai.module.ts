@@ -12,9 +12,10 @@ import { VectorStoreService } from './services/vector-store.service';
 import { EmbeddingService } from './services/embedding.service';
 import { IndexService } from './services/index.service';
 import { ChromaProvider } from './providers/chroma.provider';
+import { SearchService } from './services/search.service';
 
 @Module({
   controllers: [AiController],
-  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider],
+  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider, SearchService],
 })
 export class AiModule {}

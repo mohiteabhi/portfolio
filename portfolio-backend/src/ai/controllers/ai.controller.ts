@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, UseInterceptors, UploadedFile, Delete } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AiService } from '../services/ai.service';
 import { UploadService } from '../services/upload.service';
@@ -8,6 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Body } from '@nestjs/common';
 import { ParseDocumentDto } from '../dto/parse-document.dto';
 import { IndexDocumentDto } from '../dto/index-document.dto';
+import { SearchDto } from '../dto/search.dto';
 
 @ApiTags('AI')
 @Controller('ai')
@@ -88,6 +89,7 @@ export class AiController {
   ) {
     return await this.aiService.indexDocument(
       dto.fileName,
+      dto.originalName,
     );
   }
 
@@ -95,5 +97,26 @@ export class AiController {
   @Get('collection-info')
   async collectionInfo() {
     return await this.aiService.collectionInfo();
+  }
+
+  @Post('search')
+  @ApiOperation({
+    summary: 'Semantic search',
+  })
+  search(
+    @Body()
+    dto: SearchDto,
+  ) {
+    return this.aiService.search(
+      dto.question,
+    );
+  }
+
+  @Delete('clear-collection')
+  @ApiOperation({
+    summary: 'Clear the vector store collection',
+  })
+  clearCollection() {
+    return this.aiService.clearCollection();
   }
 }

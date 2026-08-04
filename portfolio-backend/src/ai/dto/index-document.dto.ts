@@ -13,4 +13,12 @@ export class IndexDocumentDto {
   @IsString()
   @IsNotEmpty()
   fileName!: string;
+
+  @ApiProperty({
+    example:
+      'original.pdf',
+  })
+  @IsString()
+  @IsNotEmpty()
+  originalName!: string;
 }
