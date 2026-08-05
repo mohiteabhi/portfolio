@@ -11,6 +11,9 @@ import { GEMINI_CLIENT } from '../../common/constants/ai.constants';
 
 import { SearchService } from './search.service';
 import { PromptBuilderService } from './prompt-builder.service';
+import {
+  SIMILARITY_THRESHOLD,
+} from '../../common/constants/search.constants';
 
 @Injectable()
 export class ChatService {
@@ -35,7 +38,20 @@ export class ChatService {
       this.logger.log(
         `Retrieved ${searchResult.totalMatches} chunks.`,
       );
-      if (searchResult.totalMatches === 0) {
+
+      this.logger.log(
+        `Retrieved ${searchResult.totalMatches} chunks.`,
+      );
+
+      searchResult.matches.forEach((chunk) => {
+        this.logger.log(
+          `[${chunk.distance.toFixed(3)}] ${chunk.source} | Chunk ${chunk.chunkIndex}`,
+        );
+      });
+      const relevantChunks = searchResult.matches.filter(
+        (chunk) => chunk.distance <= SIMILARITY_THRESHOLD,
+      );
+      if (relevantChunks.length === 0) {
         return {
           success: true,
           answer:
@@ -44,13 +60,17 @@ export class ChatService {
         };
       }
 
+      this.logger.log(
+        `Using ${relevantChunks.length} chunks after similarity filtering.`,
+      );
+
       /**
        * Build prompt
        */
       const prompt =
         this.promptBuilder.build(
           question,
-          searchResult.matches,
+          relevantChunks,
         );
 
       this.logger.log(`Question: ${question}`);
@@ -78,7 +98,7 @@ export class ChatService {
 
         sources: [
           ...new Map(
-            searchResult.matches.map((chunk) => [
+            relevantChunks.map((chunk) => [
               chunk.source,
               {
                 source: chunk.source,
