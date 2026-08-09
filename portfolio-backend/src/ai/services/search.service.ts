@@ -6,6 +6,7 @@ import {
 
 import { EmbeddingService } from './embedding.service';
 import { VectorStoreService } from './vector-store.service';
+import { QueryService } from './query.service';
 
 @Injectable()
 export class SearchService {
@@ -14,12 +15,15 @@ export class SearchService {
   constructor(
     private readonly embeddingService: EmbeddingService,
     private readonly vectorStoreService: VectorStoreService,
-  ) {}
+    private readonly queryService: QueryService
+  ) { }
 
   async search(question: string) {
     try {
+      const normalizedQuestion =
+        this.queryService.normalize(question);
       const embedding =
-        await this.embeddingService.embedQuery(question);
+        await this.embeddingService.embedQuery(normalizedQuestion);
 
       return await this.vectorStoreService.search(
         embedding,
@@ -33,5 +37,5 @@ export class SearchService {
     }
   }
 
-  
+
 }
