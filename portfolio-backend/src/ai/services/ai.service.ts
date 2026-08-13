@@ -8,6 +8,8 @@ import { IndexService } from './index.service';
 import { SearchService } from './search.service';
 import { VectorStoreService } from './vector-store.service';
 import { ChatService } from './chat.service';
+import { ConversationService } from './conversation.service';
+import { QueryRewriterService } from './query-rewriter.service';
 @Injectable()
 export class AiService {
 
@@ -21,6 +23,8 @@ export class AiService {
         private readonly searchService: SearchService,
         private readonly vectorStoreService: VectorStoreService,
         private readonly chatService: ChatService,
+        private readonly conversationService: ConversationService,
+        private readonly queryRewriterService: QueryRewriterService
     ) { }
 
     getHealth() {
@@ -90,9 +94,59 @@ export class AiService {
         return await this.vectorStoreService.clearCollection();
     }
 
-    async chat(question: string) {
-    return await this.chatService.chat(
-        question,
-    );
-}
+    async chat(
+        question: string,
+        sessionId = 'portfolio-demo',
+    ) {
+        try {
+            // 1. Get previous conversation
+            const history =
+                this.conversationService.getHistory(
+                    sessionId,
+                );
+
+            // 2. Rewrite the user's question
+            const searchQuestion =
+                await this.queryRewriterService.rewrite(
+                    question,
+                    history,
+                );
+
+            console.log(
+                'Original question:',
+                question,
+            );
+
+            console.log(
+                'Rewritten question:',
+                searchQuestion,
+            );
+
+            // 3. Generate the actual chatbot answer
+            const result =
+                await this.chatService.chat(
+                    searchQuestion,
+                );
+
+            // 4. Store conversation
+            this.conversationService.addUserMessage(
+                sessionId,
+                question,
+            );
+
+            this.conversationService.addAssistantMessage(
+                sessionId,
+                result.answer!,
+            );
+
+            return result;
+
+        } catch (error) {
+            console.error(error);
+
+            throw new InternalServerErrorException(
+                'Failed to process chatbot question.',
+            );
+        }
+    }
 }

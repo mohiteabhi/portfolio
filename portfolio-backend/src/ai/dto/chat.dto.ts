@@ -1,11 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+    ApiProperty,
+    ApiPropertyOptional,
+} from '@nestjs/swagger';
+
+import {
+    IsOptional,
+    IsString,
+} from 'class-validator';
 
 export class ChatDto {
-  @ApiProperty({
-    example: 'Tell me about Abhijeet\'s Angular experience.',
-  })
-  @IsString()
-  @IsNotEmpty()
-  question!: string;
+
+    @ApiProperty({
+        example: 'Does Abhijeet know Angular?',
+    })
+    @IsString()
+    question!: string;
+
+    @ApiPropertyOptional({
+        example: 'portfolio-user-123',
+    })
+    @IsOptional()
+    @IsString()
+    sessionId?: string;
 }

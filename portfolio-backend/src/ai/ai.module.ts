@@ -15,9 +15,11 @@ import { ChromaProvider } from './providers/chroma.provider';
 import { SearchService } from './services/search.service';
 import { PromptBuilderService } from './services/prompt-builder.service';
 import { QueryService } from './services/query.service';
+import { ConversationService } from './services/conversation.service';
+import { QueryRewriterService } from './services/query-rewriter.service';
 
 @Module({
   controllers: [AiController],
-  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider, SearchService, PromptBuilderService, QueryService],
+  providers: [AiService, UploadService, GeminiProvider, ChatService, DocumentService, FileEmbeddingService, PromptService, SplitterService, VectorStoreService, EmbeddingService, IndexService, ChromaProvider, SearchService, PromptBuilderService, QueryService, ConversationService, QueryRewriterService],
 })
 export class AiModule {}

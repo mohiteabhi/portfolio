@@ -134,6 +134,7 @@ export class AiController {
   ) {
     return await this.aiService.chat(
       dto.question,
+      dto.sessionId,
     );
   }
 }
