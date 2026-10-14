@@ -35,22 +35,31 @@ export class ChatService {
        */
       const searchResult =
         await this.searchService.search(question);
-      this.logger.log(
-        `Retrieved ${searchResult.totalMatches} chunks.`,
-      );
 
       this.logger.log(
-        `Retrieved ${searchResult.totalMatches} chunks.`,
+        `Question: ${question}`,
+      );
+      this.logger.log(
+        `Retrieved ${searchResult.totalMatches} chunks before filtering.`,
       );
 
       searchResult.matches.forEach((chunk) => {
         this.logger.log(
-          `[${chunk.distance.toFixed(3)}] ${chunk.source} | Chunk ${chunk.chunkIndex}`,
+          `Distance: ${chunk.distance.toFixed(4)} | ` +
+          `Source: ${chunk.source} | ` +
+          `Chunk: ${chunk.chunkIndex} | ` +
+          `Type: ${chunk.documentType} | ` +
+          `Content: ${chunk.content.slice(0, 250).replace(/\s+/g, ' ')}`,
         );
       });
       const relevantChunks = searchResult.matches.filter(
         (chunk) => chunk.distance <= SIMILARITY_THRESHOLD,
       );
+
+      this.logger.log(
+        `Using ${relevantChunks.length} chunks after similarity filtering.`,
+      );
+
       if (relevantChunks.length === 0) {
         return {
           success: true,
@@ -59,10 +68,6 @@ export class ChatService {
           sources: [],
         };
       }
-
-      this.logger.log(
-        `Using ${relevantChunks.length} chunks after similarity filtering.`,
-      );
 
       /**
        * Build prompt

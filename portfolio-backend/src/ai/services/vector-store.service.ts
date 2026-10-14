@@ -32,11 +32,31 @@ export class VectorStoreService implements OnModuleInit {
         }
     }
 
+    // private async getCollection() {
+    //     return await this.chroma.getOrCreateCollection({
+    //         name: CHROMA_COLLECTION,
+    //         embeddingFunction: undefined,
+    //     });
+    // }
     private async getCollection() {
-        return await this.chroma.getOrCreateCollection({
-            name: CHROMA_COLLECTION,
-            embeddingFunction: undefined,
-        });
+        try {
+            return await this.chroma.getOrCreateCollection({
+                name: CHROMA_COLLECTION,
+                metadata: {
+                    'hnsw:space': 'cosine',
+                },
+                embeddingFunction: undefined,
+            });
+        } catch (error) {
+            this.logger.error(
+                'Failed to get or create Chroma collection.',
+                error instanceof Error ? error.stack : String(error),
+            );
+
+            throw new InternalServerErrorException(
+                'Failed to initialize the vector collection.',
+            );
+        }
     }
     async store(chunks: EmbeddedChunk[]) {
         try {

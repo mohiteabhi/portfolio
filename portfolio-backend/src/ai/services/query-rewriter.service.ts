@@ -164,8 +164,11 @@ Standalone search query:
                     contents: prompt,
                 });
 
-            const rewrittenQuestion =
-                response.text?.trim();
+            const rewrittenQuestion = response.text
+                ?.trim()
+                .replace(/^["'`]+|["'`]+$/g, '')
+                .replace(/^(?:standalone search query|rewritten question|question)\s*:\s*/i, '')
+                .trim();
 
             if (!rewrittenQuestion) {
                 return question;

@@ -16,7 +16,8 @@ import { ChatDto } from '../dto/chat.dto';
 export class AiController {
   constructor(private readonly aiService: AiService, private readonly uploadService: UploadService) { }
 
-  @Get('health')
+  //Checks whether the backend is running.
+  @Get('health') 
   @ApiOperation({
     summary: 'Health Check',
   })
@@ -28,6 +29,7 @@ export class AiController {
     return this.aiService.getHealth();
   }
 
+  // Uploads a document and saves it in uploads/documents
   @Post('upload')
   @ApiOperation({
     summary: 'Upload portfolio document',
@@ -54,6 +56,7 @@ export class AiController {
     return this.uploadService.upload(file);
   }
 
+  // Tests connectivity with Gemini.
   @Get('test-llm')
   @ApiOperation({
     summary: 'Test Gemini connection',
@@ -65,7 +68,7 @@ export class AiController {
     return await this.aiService.testLLM();
   }
 
-
+  // Extracts document text, cleans it, and produces chunks for inspection.
   @Post('parse')
   @ApiOperation({
     summary: 'Parse uploaded document into chunks',
@@ -79,6 +82,7 @@ export class AiController {
     return this.aiService.parseDocument(dto.fileName);
   }
 
+  // Reads a document, creates chunks and embeddings, and stores them in ChromaDB.
   @Post('index')
   @ApiOperation({
     summary:
@@ -94,12 +98,13 @@ export class AiController {
     );
   }
 
-
+  // Returns the ChromaDB collection name and total vector count
   @Get('collection-info')
   async collectionInfo() {
     return await this.aiService.collectionInfo();
   }
 
+  // Tests semantic retrieval and returns matching chunks and distances.
   @Post('search')
   @ApiOperation({
     summary: 'Semantic search',
@@ -113,6 +118,7 @@ export class AiController {
     );
   }
 
+  // Clears the collection by deleting and recreating it. Use carefully.
   @Delete('clear-collection')
   @ApiOperation({
     summary: 'Clear the vector store collection',
@@ -121,6 +127,7 @@ export class AiController {
     return this.aiService.clearCollection();
   }
 
+  // Runs the complete chatbot pipeline and returns an answer with source information.
   @Post('chat')
   @ApiOperation({
     summary: 'Chat with portfolio AI',

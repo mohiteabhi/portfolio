@@ -94,55 +94,110 @@ export class AiService {
         return await this.vectorStoreService.clearCollection();
     }
 
+    // async chat(
+    //     question: string,
+    //     sessionId = 'portfolio-demo',
+    // ) {
+    //     try {
+    //         // 1. Get previous conversation
+    //         const history =
+    //             this.conversationService.getHistory(
+    //                 sessionId,
+    //             );
+
+    //         // 2. Rewrite the user's question
+    //         const searchQuestion =
+    //             await this.queryRewriterService.rewrite(
+    //                 question,
+    //                 history,
+    //             );
+
+    //         console.log(
+    //             'Original question:',
+    //             question,
+    //         );
+
+    //         console.log(
+    //             'Rewritten question:',
+    //             searchQuestion,
+    //         );
+
+    //         // 3. Generate the actual chatbot answer
+    //         const result =
+    //             await this.chatService.chat(
+    //                 searchQuestion,
+    //             );
+
+    //         // 4. Store conversation
+    //         this.conversationService.addUserMessage(
+    //             sessionId,
+    //             question,
+    //         );
+
+    //         this.conversationService.addAssistantMessage(
+    //             sessionId,
+    //             result.answer!,
+    //         );
+
+    //         return result;
+
+    //     } catch (error) {
+    //         console.error(error);
+
+    //         throw new InternalServerErrorException(
+    //             'Failed to process chatbot question.',
+    //         );
+    //     }
+    // }
     async chat(
         question: string,
         sessionId = 'portfolio-demo',
     ) {
         try {
-            // 1. Get previous conversation
-            const history =
-                this.conversationService.getHistory(
-                    sessionId,
-                );
+            const normalizedSessionId = sessionId.trim() || 'portfolio-demo';
 
-            // 2. Rewrite the user's question
-            const searchQuestion =
-                await this.queryRewriterService.rewrite(
-                    question,
-                    history,
-                );
+            // 1. Read history before adding the current question.
+            const history = this.conversationService.getHistory(
+                normalizedSessionId,
+            );
 
+            console.log('Session ID:', sessionId);
+            console.log('History length:', history.length);
             console.log(
-                'Original question:',
+                'History:',
+                JSON.stringify(history, null, 2),
+            );
+            // 2. Rewrite follow-up questions using previous turns.
+            const searchQuestion = await this.queryRewriterService.rewrite(
                 question,
+                history,
             );
 
-            console.log(
-                'Rewritten question:',
-                searchQuestion,
-            );
+            console.log('Session ID:', normalizedSessionId);
+            console.log('Original question:', question);
+            console.log('Rewritten question:', searchQuestion);
 
-            // 3. Generate the actual chatbot answer
-            const result =
-                await this.chatService.chat(
-                    searchQuestion,
-                );
-
-            // 4. Store conversation
+            // 3. Save the user's original question before generating
+            // the answer, so the conversation remains in order.
             this.conversationService.addUserMessage(
-                sessionId,
+                normalizedSessionId,
                 question,
             );
 
-            this.conversationService.addAssistantMessage(
-                sessionId,
-                result.answer!,
-            );
+            // 4. Retrieve context and generate the answer.
+            const result = await this.chatService.chat(searchQuestion);
+
+            // 5. Save the assistant answer only when one exists.
+            if (result.answer) {
+                this.conversationService.addAssistantMessage(
+                    normalizedSessionId,
+                    result.answer,
+                );
+            }
 
             return result;
-
         } catch (error) {
-            console.error(error);
+            console.error('Chat processing failed:', error);
 
             throw new InternalServerErrorException(
                 'Failed to process chatbot question.',
