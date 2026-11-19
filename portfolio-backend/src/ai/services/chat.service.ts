@@ -114,10 +114,13 @@ export class ChatService {
         ],
       };
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error(
+        'Failed to generate chatbot response.',
+        error instanceof Error ? error.stack : String(error),
+      );
 
       throw new InternalServerErrorException(
-        'Failed to generate response.',
+        'Unable to generate a response right now. Please try again later.',
       );
     }
   }

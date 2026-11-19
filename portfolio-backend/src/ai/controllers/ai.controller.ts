@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseInterceptors, UploadedFile, Delete } from '@nestjs/common';
+import { Controller, Get, Post, UseInterceptors, UploadedFile, Delete, Param } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AiService } from '../services/ai.service';
 import { UploadService } from '../services/upload.service';
@@ -17,7 +17,7 @@ export class AiController {
   constructor(private readonly aiService: AiService, private readonly uploadService: UploadService) { }
 
   //Checks whether the backend is running.
-  @Get('health') 
+  @Get('health')
   @ApiOperation({
     summary: 'Health Check',
   })
@@ -143,5 +143,11 @@ export class AiController {
       dto.question,
       dto.sessionId,
     );
+  }
+
+  // Clears the conversation history for a given session ID.
+  @Delete('chat/session/:sessionId')
+  clearConversation(@Param('sessionId') sessionId: string) {
+    return this.aiService.clearConversation(sessionId);
   }
 }

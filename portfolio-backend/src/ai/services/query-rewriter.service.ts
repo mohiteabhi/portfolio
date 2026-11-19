@@ -1,7 +1,7 @@
 import {
     Inject,
     Injectable,
-    InternalServerErrorException,
+    Logger,
 } from '@nestjs/common';
 
 import { GoogleGenAI } from '@google/genai';
@@ -18,7 +18,9 @@ export class QueryRewriterService {
     constructor(
         @Inject(GEMINI_CLIENT)
         private readonly gemini: GoogleGenAI,
+        // private readonly logger: Logger,
     ) { }
+    private readonly logger = new Logger(QueryRewriterService.name);
 
     async rewrite(
         question: string,
@@ -177,14 +179,11 @@ Standalone search query:
             return rewrittenQuestion;
 
         } catch (error) {
-            console.error(
-                'Query rewriting failed:',
-                error,
+            this.logger.warn(
+                `Query rewriting failed. Using original question. ${error instanceof Error ? error.message : String(error)
+                }`,
             );
 
-            // Important:
-            // If rewriting fails, continue with the
-            // original question instead of breaking RAG.
             return question;
         }
     }

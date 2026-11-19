@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger, BadRequestException } from '@nestjs/common';
 import { Express } from 'express';
 import { GEMINI_CLIENT } from 'src/common/constants/ai.constants';
 import { DocumentService } from './document.service';
@@ -17,7 +17,7 @@ export class AiService {
         @Inject(GEMINI_CLIENT)
         private readonly gemini: GoogleGenAI,
         private readonly documentService: DocumentService,
-
+        // private readonly logger: Logger,
         private readonly splitterService: SplitterService,
         private readonly indexService: IndexService,
         private readonly searchService: SearchService,
@@ -26,6 +26,7 @@ export class AiService {
         private readonly conversationService: ConversationService,
         private readonly queryRewriterService: QueryRewriterService
     ) { }
+    private readonly logger = new Logger(AiService.name);
 
     getHealth() {
         return {
@@ -48,7 +49,10 @@ export class AiService {
             };
         }
         catch (error) {
-            console.error(error);
+            this.logger.error(
+                'Gemini connection test failed.',
+                error instanceof Error ? error.stack : String(error),
+            );
             throw new InternalServerErrorException('Failed to connect to Gemini',);
         }
     }
@@ -65,7 +69,10 @@ export class AiService {
                 chunks,
             };
         } catch (error) {
-            console.error(error);
+            this.logger.error(
+                'Document parsing failed.',
+                error instanceof Error ? error.stack : String(error),
+            );
 
             throw new InternalServerErrorException(
                 'Failed to parse document.',
@@ -151,7 +158,7 @@ export class AiService {
     // }
     async chat(
         question: string,
-        sessionId = 'portfolio-demo',
+        sessionId: string,
     ) {
         try {
             const normalizedSessionId = sessionId.trim() || 'portfolio-demo';
@@ -197,10 +204,44 @@ export class AiService {
 
             return result;
         } catch (error) {
-            console.error('Chat processing failed:', error);
+            this.logger.error(
+                'Chat processing failed.',
+                error instanceof Error ? error.stack : String(error),
+            );
 
             throw new InternalServerErrorException(
                 'Failed to process chatbot question.',
+            );
+        }
+    }
+
+    async clearConversation(sessionId: string) {
+        try {
+            // Validate session ID
+            if (!sessionId || !/^[A-Za-z0-9_-]{1,100}$/.test(sessionId)) {
+                throw new BadRequestException('Invalid session ID.');
+            }
+
+            this.conversationService.clearHistory(sessionId);
+
+            this.logger.log(`Conversation cleared for session: ${sessionId}`);
+
+            return {
+                success: true,
+                message: 'Conversation history cleared successfully.',
+            };
+        } catch (error) {
+            if (error instanceof BadRequestException) {
+                throw error;
+            }
+
+            this.logger.error(
+                'Failed to clear conversation history.',
+                error instanceof Error ? error.stack : String(error),
+            );
+
+            throw new InternalServerErrorException(
+                'Failed to clear conversation history.',
             );
         }
     }
